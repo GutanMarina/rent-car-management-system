@@ -1,0 +1,12 @@
+target/
+.idea/
+*.iml
+*.log
+.env
+.DS_Store
+
+### Maven ###
+.mvn/wrapper/maven-wrapper.jar
+
+### IntelliJ ###
+out/
