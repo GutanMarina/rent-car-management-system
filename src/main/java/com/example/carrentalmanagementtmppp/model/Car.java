@@ -1,5 +1,7 @@
 package com.example.carrentalmanagementtmppp.model;
-
+import com.example.carrentalmanagementtmppp.enums.CarType;
+import com.example.carrentalmanagementtmppp.enums.FuelType;
+import com.example.carrentalmanagementtmppp.enums.TransmissionType;
 import com.example.carrentalmanagementtmppp.enums.CarStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,4 +34,20 @@ public class Car {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CarStatus status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CarType carType;
+
+    @Column(nullable = false)
+    private Integer seats;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private FuelType fuelType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TransmissionType transmissionType;
+
+    private String imageUrl;
 }
