@@ -1,4 +1,5 @@
 package com.example.carrentalmanagementtmppp.patterns.structural.facade;
+import com.example.carrentalmanagementtmppp.enums.CarType;
 import com.example.carrentalmanagementtmppp.model.Car;
 import com.example.carrentalmanagementtmppp.model.Payment;
 import com.example.carrentalmanagementtmppp.model.Reservation;
@@ -30,10 +31,12 @@ public class RentalFacadeImpl implements RentalFacade {
         this.paymentService = paymentService;
         this.rentalContractService = rentalContractService;
     }
+
     @Override
     public Car addCar(Car car) {
         return carService.saveCar(car);
     }
+
     @Override
     public Car getCarById(Long id) {
         return carService.getCarById(id)
@@ -54,11 +57,13 @@ public class RentalFacadeImpl implements RentalFacade {
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
+
     @Override
     public User getUserById(Long id) {
         return userService.getUserById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
     @Override
     public List<Reservation> getAllReservations() {
         return reservationService.getAllReservations();
@@ -92,11 +97,13 @@ public class RentalFacadeImpl implements RentalFacade {
     public Reservation completeReservation(Long reservationId) {
         return reservationService.completeReservation(reservationId);
     }
+
     @Override
     public Reservation getReservationById(Long id) {
         return reservationService.getReservationById(id)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
     }
+
     @Override
     public Payment createPayment(Long reservationId, String paymentMethod) {
         return paymentService.createPayment(reservationId, paymentMethod);
@@ -112,8 +119,24 @@ public class RentalFacadeImpl implements RentalFacade {
         return paymentService.getPaymentById(id)
                 .orElseThrow(() -> new RuntimeException("Payment not found"));
     }
+
     @Override
     public RentalContract generateContract(Long reservationId) {
         return rentalContractService.generateContract(reservationId);
+    }
+
+    @Override
+    public List<Car> getAvailableCars() {
+        return carService.getAvailableCars();
+    }
+
+    @Override
+    public List<Car> getCarsByType(CarType carType) {
+        return carService.getCarsByType(carType);
+    }
+
+    @Override
+    public List<Car> searchCars(String keyword) {
+        return carService.searchCars(keyword);
     }
 }

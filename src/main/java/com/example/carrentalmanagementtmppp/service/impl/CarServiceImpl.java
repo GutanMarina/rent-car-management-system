@@ -3,6 +3,7 @@ import com.example.carrentalmanagementtmppp.model.Car;
 import com.example.carrentalmanagementtmppp.repository.CarRepository;
 import com.example.carrentalmanagementtmppp.service.CarService;
 import org.springframework.stereotype.Service;
+import com.example.carrentalmanagementtmppp.enums.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,5 +30,17 @@ public class CarServiceImpl implements CarService {
     @Override
     public Optional<Car> getCarById(Long id) {
         return carRepository.findById(id);
+    }
+    @Override
+    public List<Car> getAvailableCars() {
+        return carRepository.findByStatus(CarStatus.AVAILABLE);
+    }
+    @Override
+    public List<Car> getCarsByType(CarType carType) {
+        return carRepository.findByCarType(carType);
+    }
+    @Override
+    public List<Car> searchCars(String keyword) {
+        return carRepository.searchCars(keyword.trim());
     }
 }

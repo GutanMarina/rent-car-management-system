@@ -5,6 +5,7 @@ import com.example.carrentalmanagementtmppp.model.Payment;
 import com.example.carrentalmanagementtmppp.model.Reservation;
 import com.example.carrentalmanagementtmppp.model.User;
 import com.example.carrentalmanagementtmppp.patterns.creational.prototype.RentalContract;
+import com.example.carrentalmanagementtmppp.enums.CarType;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -40,4 +41,6 @@ public interface RentalFacade {
     Payment getPaymentById(Long id);
 
     RentalContract generateContract(Long reservationId);
-}
+    List<Car> getAvailableCars();
+    List<Car> getCarsByType(CarType carType);
+    List<Car> searchCars(String keyword);}
