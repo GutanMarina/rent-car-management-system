@@ -1,9 +1,6 @@
 package com.example.carrentalmanagementtmppp.config;
 
-import com.example.carrentalmanagementtmppp.patterns.behavioral.observer.AuditLogListener;
-import com.example.carrentalmanagementtmppp.patterns.behavioral.observer.EmailNotificationListener;
-import com.example.carrentalmanagementtmppp.patterns.behavioral.observer.ReservationSubject;
-import com.example.carrentalmanagementtmppp.patterns.behavioral.observer.SMSNotificationListener;
+import com.example.carrentalmanagementtmppp.patterns.behavioral.observer.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
 
