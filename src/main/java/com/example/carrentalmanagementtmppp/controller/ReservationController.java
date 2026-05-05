@@ -1,10 +1,12 @@
 package com.example.carrentalmanagementtmppp.controller;
+import com.example.carrentalmanagementtmppp.dto.request.CreateReservationRequest;
+import com.example.carrentalmanagementtmppp.dto.response.ReservationResponse;
+import com.example.carrentalmanagementtmppp.mapper.ReservationMapper;
 import com.example.carrentalmanagementtmppp.model.Reservation;
 import com.example.carrentalmanagementtmppp.patterns.structural.facade.RentalFacade;
-import com.example.carrentalmanagementtmppp.service.ReservationService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -18,48 +20,50 @@ public class ReservationController {
     }
 
     @PostMapping
-    public Reservation createReservation(@RequestParam Long carId,
-                                         @RequestParam Long userId,
-                                         @RequestParam String startDate,
-                                         @RequestParam String endDate,
-                                         @RequestParam(defaultValue = "false") boolean gps,
-                                         @RequestParam(defaultValue = "false") boolean childSeat,
-                                         @RequestParam(defaultValue = "false") boolean insurance,
-                                         @RequestParam(defaultValue = "STANDARD") String packageType) {
-        return rentalFacade.createReservation(
-                carId,
-                userId,
-                LocalDate.parse(startDate),
-                LocalDate.parse(endDate),
-                gps,
-                childSeat,
-                insurance,
-                packageType
+    public ReservationResponse createReservation(@Valid @RequestBody CreateReservationRequest request) {
+        Reservation reservation = rentalFacade.createReservation(
+                request.getCarId(),
+                request.getUserId(),
+                request.getStartDate(),
+                request.getEndDate(),
+                request.isGps(),
+                request.isChildSeat(),
+                request.isInsurance(),
+                request.getPackageType()
         );
+
+        return ReservationMapper.toResponse(reservation);
     }
 
     @GetMapping
-    public List<Reservation> getAllReservations() {
-        return rentalFacade.getAllReservations();
+    public List<ReservationResponse> getAllReservations() {
+        return rentalFacade.getAllReservations()
+                .stream()
+                .map(ReservationMapper::toResponse)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Reservation getReservationById(@PathVariable Long id) {
-        return rentalFacade.getReservationById(id);
+    public ReservationResponse getReservationById(@PathVariable Long id) {
+        Reservation reservation = rentalFacade.getReservationById(id);
+        return ReservationMapper.toResponse(reservation);
     }
 
     @PutMapping("/{id}/confirm")
-    public Reservation confirmReservation(@PathVariable Long id) {
-        return rentalFacade.confirmReservation(id);
+    public ReservationResponse confirmReservation(@PathVariable Long id) {
+        Reservation reservation = rentalFacade.confirmReservation(id);
+        return ReservationMapper.toResponse(reservation);
     }
 
     @PutMapping("/{id}/cancel")
-    public Reservation cancelReservation(@PathVariable Long id) {
-        return rentalFacade.cancelReservation(id);
+    public ReservationResponse cancelReservation(@PathVariable Long id) {
+        Reservation reservation = rentalFacade.cancelReservation(id);
+        return ReservationMapper.toResponse(reservation);
     }
 
     @PutMapping("/{id}/complete")
-    public Reservation completeReservation(@PathVariable Long id) {
-        return rentalFacade.completeReservation(id);
+    public ReservationResponse completeReservation(@PathVariable Long id) {
+        Reservation reservation = rentalFacade.completeReservation(id);
+        return ReservationMapper.toResponse(reservation);
     }
 }
