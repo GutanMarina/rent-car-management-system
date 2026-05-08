@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Details</title>
+    <link rel="stylesheet" th:href="@{/css/reservation-details.css}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Rent<span>Car</span></div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/#cars">Cars</a>
+        <a href="/swagger-ui.html" target="_blank">API</a>
+    </nav>
+</header>
+
+<section class="page">
+    <div class="card">
+        <div class="header-row">
+            <div>
+                <p class="subtitle">Reservation details</p>
+                <h1 th:text="'Reservation #' + ${reservation.id}">Reservation #1</h1>
+            </div>
+
+            <span class="status" th:text="${reservation.status}">PENDING</span>
+        </div>
+
+        <div class="grid">
+            <div class="info-box">
+                <small>Car</small>
+                <strong th:text="${reservation.carName}">Mercedes A180d</strong>
+                <p th:text="${reservation.licensePlate}">ABC123</p>
+            </div>
+
+            <div class="info-box">
+                <small>User</small>
+                <strong th:text="${reservation.userName}">Marina</strong>
+                <p th:text="${reservation.userEmail}">email</p>
+            </div>
+
+            <div class="info-box">
+                <small>Start date</small>
+                <strong th:text="${reservation.startDate}">2026-05-01</strong>
+            </div>
+
+            <div class="info-box">
+                <small>End date</small>
+                <strong th:text="${reservation.endDate}">2026-05-04</strong>
+            </div>
+        </div>
+
+        <div class="summary">
+            <h2>Rental summary</h2>
+
+            <p>
+                <strong>Package:</strong>
+                <span th:text="${reservation.packageType}">STANDARD</span>
+            </p>
+
+            <p>
+                <strong>Assistance:</strong>
+                <span th:text="${reservation.assistanceLevel}">Standard support</span>
+            </p>
+
+            <p>
+                <strong>Options:</strong>
+                <span th:text="${reservation.optionsDescription}">Base rental</span>
+            </p>
+
+            <p>
+                <strong>Total price:</strong>
+                <span class="price" th:text="${reservation.totalPrice + ' €'}">100 €</span>
+            </p>
+        </div>
+
+        <div id="messageBox" class="message-box"></div>
+
+        <div class="actions">
+            <a th:if="${reservation.status.name() == 'PENDING'}"
+               th:href="@{'/payment-page/' + ${reservation.id}}"
+               class="btn-primary">
+                Pay Now
+            </a>
+
+            <button th:if="${reservation.status.name() == 'PENDING' || reservation.status.name() == 'CONFIRMED'}"
+                    th:onclick="'cancelReservation(' + ${reservation.id} + ')'"
+                    class="btn-danger">
+                Cancel Reservation
+            </button>
+
+            <a th:if="${reservation.status.name() == 'CONFIRMED'}"
+               th:href="@{'/contract-page/' + ${reservation.id}}"
+               class="btn-dark">
+                Generate Contract
+            </a>
+
+            <a href="/" class="btn-secondary">Back to cars</a>
+        </div>
+    </div>
+</section>
+
+<script>
+    async function cancelReservation(id) {
+        const confirmed = confirm("Are you sure you want to cancel this reservation?");
+        if (!confirmed) return;
+
+        const messageBox = document.getElementById("messageBox");
+
+        try {
+            const response = await fetch(`/reservations/${id}/cancel`, {
+                method: "PUT"
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                messageBox.innerHTML = `<p class="error">${data.message || "Cancel failed"}</p>`;
+                return;
+            }
+
+            messageBox.innerHTML = `<p class="success">Reservation cancelled successfully.</p>`;
+
+            setTimeout(() => {
+                window.location.href = `/reservation-page/${id}`;
+            }, 800);
+
+        } catch (error) {
+            messageBox.innerHTML = `<p class="error">Something went wrong.</p>`;
+        }
+    }
+</script>
+
+</body>
+</html>
