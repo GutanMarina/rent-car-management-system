@@ -1,0 +1,186 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f6f8fb;
+    color: #111827;
+}
+
+.navbar {
+    height: 80px;
+    background: #111827;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 80px;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #ff7a00;
+}
+
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 30px;
+    font-weight: 600;
+}
+
+.navbar nav a:hover {
+    color: #ff7a00;
+}
+
+.page {
+    padding: 70px 80px;
+}
+
+.contract-card {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 18px;
+    padding: 45px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.subtitle {
+    color: #ff7a00;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 42px;
+    margin-bottom: 35px;
+}
+
+.contract-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 35px;
+}
+
+.contract-meta div {
+    background: #f6f8fb;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.contract-meta small {
+    display: block;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.contract-meta strong {
+    font-size: 18px;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+.section h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.section p {
+    color: #374151;
+    line-height: 1.7;
+}
+
+.signature-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin: 45px 0;
+}
+
+.signature-area span {
+    display: block;
+    margin-bottom: 35px;
+    color: #6b7280;
+    font-weight: 700;
+}
+
+.line {
+    height: 2px;
+    background: #111827;
+}
+
+.actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.actions a,
+.actions button {
+    border: none;
+    padding: 14px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn-primary {
+    background: #ff7a00;
+    color: white;
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.btn-dark {
+    background: #111827;
+    color: white;
+}
+
+@media print {
+    .navbar,
+    .actions {
+        display: none;
+    }
+
+    body {
+        background: white;
+    }
+
+    .contract-card {
+        box-shadow: none;
+        border-radius: 0;
+    }
+}
+
+@media (max-width: 850px) {
+    .page {
+        padding: 40px 25px;
+    }
+
+    .navbar {
+        padding: 0 30px;
+    }
+
+    .contract-meta,
+    .signature-area {
+        grid-template-columns: 1fr;
+    }
+}

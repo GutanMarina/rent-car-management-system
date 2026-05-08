@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rental Contract</title>
+    <link rel="stylesheet" th:href="@{/css/contract.css}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Rent<span>Car</span></div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/#cars">Cars</a>
+        <a href="/swagger-ui.html" target="_blank">API</a>
+    </nav>
+</header>
+
+<section class="page">
+    <div class="contract-card">
+
+        <p class="subtitle">Generated document</p>
+        <h1 th:text="${contract.title}">Rental Contract</h1>
+
+        <div class="contract-meta">
+            <div>
+                <small>Reservation ID</small>
+                <strong th:text="${contract.reservationId}">1</strong>
+            </div>
+
+            <div>
+                <small>Customer</small>
+                <strong th:text="${contract.customerName}">Marina</strong>
+            </div>
+
+            <div>
+                <small>Car</small>
+                <strong th:text="${contract.carDetails}">Mercedes A180d</strong>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Standard Terms</h2>
+            <p th:text="${contract.standardTerms}">
+                The vehicle must be returned in good condition.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Additional Notes</h2>
+            <p th:text="${contract.additionalNotes}">
+                Additional notes.
+            </p>
+        </div>
+
+        <div class="signature-area">
+            <div>
+                <span>Customer Signature</span>
+                <div class="line"></div>
+            </div>
+
+            <div>
+                <span>Company Representative</span>
+                <div class="line"></div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button onclick="window.print()" class="btn-primary">Print Contract</button>
+            <a th:href="@{'/reservation-page/' + ${contract.reservationId}}" class="btn-secondary">
+                Back to Reservation
+            </a>
+            <a href="/" class="btn-dark">Back Home</a>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>
