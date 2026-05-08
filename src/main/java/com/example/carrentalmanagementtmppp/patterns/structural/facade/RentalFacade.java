@@ -1,5 +1,6 @@
 package com.example.carrentalmanagementtmppp.patterns.structural.facade;
 
+import com.example.carrentalmanagementtmppp.enums.CarStatus;
 import com.example.carrentalmanagementtmppp.model.Car;
 import com.example.carrentalmanagementtmppp.model.Payment;
 import com.example.carrentalmanagementtmppp.model.Reservation;
@@ -43,4 +44,6 @@ public interface RentalFacade {
     RentalContract generateContract(Long reservationId);
     List<Car> getAvailableCars();
     List<Car> getCarsByType(CarType carType);
-    List<Car> searchCars(String keyword);}
+    List<Car> searchCars(String keyword);
+    void deleteCar(Long id);
+    Car updateCarStatus(Long id, CarStatus status);}

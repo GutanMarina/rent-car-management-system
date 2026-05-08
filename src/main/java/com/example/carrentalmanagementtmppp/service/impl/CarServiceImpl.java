@@ -43,4 +43,21 @@ public class CarServiceImpl implements CarService {
     public List<Car> searchCars(String keyword) {
         return carRepository.searchCars(keyword.trim());
     }
+    @Override
+    public void deleteCar(Long id) {
+        if (!carRepository.existsById(id)) {
+            throw new RuntimeException("Car not found");
+        }
+
+        carRepository.deleteById(id);
+    }
+
+    @Override
+    public Car updateCarStatus(Long id, CarStatus status) {
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        car.setStatus(status);
+        return carRepository.save(car);
+    }
 }

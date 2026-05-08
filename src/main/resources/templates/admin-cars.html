@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Cars</title>
+    <link rel="stylesheet" th:href="@{/css/admin-cars.css}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Rent<span>Car</span> Admin</div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/admin/cars">Admin Cars</a>
+        <a href="/swagger-ui.html" target="_blank">API</a>
+    </nav>
+</header>
+
+<section class="page">
+
+    <div class="form-card">
+        <h1>Add New Car</h1>
+
+        <form id="addCarForm">
+            <div class="grid">
+                <input id="brand" placeholder="Brand" required>
+                <input id="model" placeholder="Model" required>
+                <input id="licensePlate" placeholder="License plate" required>
+                <input id="pricePerDay" type="number" placeholder="Price per day" required>
+
+                <select id="carType">
+                    <option value="ECONOMY">ECONOMY</option>
+                    <option value="COMPACT">COMPACT</option>
+                    <option value="SUV">SUV</option>
+                    <option value="LUXURY">LUXURY</option>
+                    <option value="VAN">VAN</option>
+                </select>
+
+                <input id="seats" type="number" placeholder="Seats" required>
+
+                <select id="fuelType">
+                    <option value="PETROL">PETROL</option>
+                    <option value="DIESEL">DIESEL</option>
+                    <option value="HYBRID">HYBRID</option>
+                    <option value="ELECTRIC">ELECTRIC</option>
+                </select>
+
+                <select id="transmissionType">
+                    <option value="MANUAL">MANUAL</option>
+                    <option value="AUTOMATIC">AUTOMATIC</option>
+                </select>
+
+                <input id="imageUrl" placeholder="/images/car.jpg">
+            </div>
+
+            <button type="submit">Add Car</button>
+        </form>
+
+        <div id="messageBox"></div>
+    </div>
+
+    <div class="table-card">
+        <h2>Fleet Cars</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Car</th>
+                <th>Type</th>
+                <th>Fuel</th>
+                <th>Transmission</th>
+                <th>Seats</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="car : ${cars}">
+                <td th:text="${car.id}">1</td>
+                <td>
+                    <strong th:text="${car.brand + ' ' + car.model}">BMW X5</strong>
+                    <small th:text="${car.licensePlate}">ABC123</small>
+                </td>
+                <td th:text="${car.carType}">SUV</td>
+                <td th:text="${car.fuelType}">DIESEL</td>
+                <td th:text="${car.transmissionType}">AUTOMATIC</td>
+                <td th:text="${car.seats}">5</td>
+                <td th:text="${car.pricePerDay + ' €'}">50 €</td>
+                <td>
+                    <select th:id="'status-' + ${car.id}">
+                        <option value="AVAILABLE" th:selected="${car.status.name() == 'AVAILABLE'}">AVAILABLE</option>
+                        <option value="RESERVED" th:selected="${car.status.name() == 'RESERVED'}">RESERVED</option>
+                    </select>
+                </td>
+                <td class="actions">
+                    <button th:onclick="'updateStatus(' + ${car.id} + ')'">Save</button>
+                    <button class="delete" th:onclick="'deleteCar(' + ${car.id} + ')'">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+<script>
+    document.getElementById("addCarForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const request = {
+            brand: document.getElementById("brand").value,
+            model: document.getElementById("model").value,
+            licensePlate: document.getElementById("licensePlate").value,
+            pricePerDay: Number(document.getElementById("pricePerDay").value),
+            status: "AVAILABLE",
+            carType: document.getElementById("carType").value,
+            seats: Number(document.getElementById("seats").value),
+            fuelType: document.getElementById("fuelType").value,
+            transmissionType: document.getElementById("transmissionType").value,
+            imageUrl: document.getElementById("imageUrl").value
+        };
+
+        const response = await fetch("/cars", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(request)
+        });
+
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            const data = await response.json();
+            document.getElementById("messageBox").innerHTML =
+                `<p class="error">${data.message || "Could not add car"}</p>`;
+        }
+    });
+
+    async function updateStatus(id) {
+        const status = document.getElementById("status-" + id).value;
+
+        const response = await fetch(`/cars/${id}/status`, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({status: status})
+        });
+
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            const data = await response.json();
+            alert(data.message || "Could not update status");
+        }
+    }
+
+    async function deleteCar(id) {
+        if (!confirm("Delete this car?")) return;
+
+        const response = await fetch(`/cars/${id}`, {
+            method: "DELETE"
+        });
+
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            const data = await response.json();
+            alert(data.message || "Could not delete car. It may be used in reservations.");
+        }
+    }
+</script>
+
+</body>
+</html>

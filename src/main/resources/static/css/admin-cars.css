@@ -1,0 +1,142 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f6f8fb;
+    color: #111827;
+}
+
+.navbar {
+    height: 80px;
+    background: #111827;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 80px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #ff7a00;
+}
+
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 28px;
+    font-weight: 700;
+}
+
+.page {
+    padding: 60px 80px;
+}
+
+.form-card,
+.table-card {
+    background: white;
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    margin-bottom: 35px;
+}
+
+h1,
+h2 {
+    margin-bottom: 25px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+input,
+select {
+    padding: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+form button {
+    margin-top: 20px;
+    background: #ff7a00;
+    color: white;
+    border: none;
+    padding: 14px 26px;
+    border-radius: 8px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    background: #111827;
+    color: white;
+    padding: 14px;
+}
+
+td {
+    padding: 14px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+td small {
+    display: block;
+    color: #6b7280;
+    margin-top: 4px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.actions button {
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #111827;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.actions .delete {
+    background: #dc2626;
+}
+
+.error {
+    margin-top: 15px;
+    color: #dc2626;
+    font-weight: 800;
+}
+
+@media (max-width: 1000px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page {
+        padding: 35px 25px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+}

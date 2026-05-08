@@ -1,4 +1,6 @@
 package com.example.carrentalmanagementtmppp.patterns.structural.facade;
+
+import com.example.carrentalmanagementtmppp.enums.CarStatus;
 import com.example.carrentalmanagementtmppp.enums.CarType;
 import com.example.carrentalmanagementtmppp.model.Car;
 import com.example.carrentalmanagementtmppp.model.Payment;
@@ -138,5 +140,15 @@ public class RentalFacadeImpl implements RentalFacade {
     @Override
     public List<Car> searchCars(String keyword) {
         return carService.searchCars(keyword);
+    }
+
+    @Override
+    public void deleteCar(Long id) {
+        carService.deleteCar(id);
+    }
+
+    @Override
+    public Car updateCarStatus(Long id, CarStatus status) {
+        return carService.updateCarStatus(id, status);
     }
 }

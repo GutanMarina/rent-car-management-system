@@ -1,5 +1,6 @@
 package com.example.carrentalmanagementtmppp.controller;
 import com.example.carrentalmanagementtmppp.dto.request.CreateCarRequest;
+import com.example.carrentalmanagementtmppp.dto.request.UpdateCarStatusRequest;
 import com.example.carrentalmanagementtmppp.dto.response.CarResponse;
 import com.example.carrentalmanagementtmppp.mapper.CarMapper;
 import com.example.carrentalmanagementtmppp.model.Car;
@@ -73,5 +74,16 @@ public class CarController {
                 .stream()
                 .map(CarMapper::toResponse)
                 .toList();
+    }
+    @DeleteMapping("/{id}")
+    public void deleteCar(@PathVariable Long id) {
+        rentalFacade.deleteCar(id);
+    }
+
+    @PutMapping("/{id}/status")
+    public CarResponse updateCarStatus(@PathVariable Long id,
+                                       @Valid @RequestBody UpdateCarStatusRequest request) {
+        Car updatedCar = rentalFacade.updateCarStatus(id, request.getStatus());
+        return CarMapper.toResponse(updatedCar);
     }
 }
