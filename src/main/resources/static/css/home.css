@@ -1,0 +1,302 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f6f8fb;
+    color: #1d2330;
+}
+
+.navbar {
+    height: 80px;
+    background: #111827;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 80px;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #ff7a00;
+}
+
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 30px;
+    font-weight: 600;
+}
+
+.navbar nav a:hover {
+    color: #ff7a00;
+}
+
+.hero {
+    min-height: 520px;
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr;
+    gap: 40px;
+    padding: 80px;
+    background: linear-gradient(120deg, #111827, #1f2937);
+    color: white;
+}
+
+.subtitle {
+    color: #ff7a00;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.hero h1 {
+    font-size: 58px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.description {
+    max-width: 620px;
+    font-size: 18px;
+    color: #d1d5db;
+    margin-bottom: 30px;
+}
+
+.hero-actions a {
+    display: inline-block;
+    padding: 14px 26px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    margin-right: 12px;
+}
+
+.btn-primary {
+    background: #ff7a00;
+    color: white;
+}
+
+.btn-secondary {
+    border: 1px solid white;
+    color: white;
+}
+
+.search-box {
+    background: white;
+    color: #111827;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+    align-self: center;
+}
+
+.search-box h3 {
+    font-size: 26px;
+    margin-bottom: 25px;
+}
+
+.field {
+    margin-bottom: 18px;
+}
+
+.field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.search-box button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background: #ff7a00;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.steps {
+    padding: 70px 80px;
+    background: white;
+    text-align: center;
+}
+
+.steps h2 {
+    font-size: 38px;
+    margin-bottom: 35px;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.step-card {
+    padding: 30px;
+    background: #f6f8fb;
+    border-radius: 16px;
+}
+
+.step-card span {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ff7a00;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.cars-section {
+    padding: 60px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-header p {
+    color: #ff7a00;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.section-header h2 {
+    font-size: 42px;
+    margin-top: 10px;
+}
+
+.cars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.car-card {
+    width: 100%;
+}
+
+.car-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.car-body {
+    padding: 24px;
+}
+
+.car-type {
+    display: inline-block;
+    background: #fff3e6;
+    color: #ff7a00;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.car-body h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.meta {
+    color: #6b7280;
+    margin-bottom: 18px;
+}
+
+.price {
+    margin-bottom: 22px;
+}
+
+.price strong {
+    color: #ff7a00;
+    font-size: 24px;
+}
+
+.price span {
+    color: #6b7280;
+}
+
+.card-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.card-actions a {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.details-btn {
+    background: #111827;
+    color: white;
+}
+
+.reserve-btn {
+    background: #ff7a00;
+    color: white;
+}
+
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 40px;
+    }
+
+    .cars-grid,
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .navbar {
+        padding: 0 30px;
+    }
+
+    .navbar nav a {
+        margin-left: 12px;
+    }
+}

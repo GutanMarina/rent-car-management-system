@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>RentCar</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Rent<span>Car</span></div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="#cars">Cars</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="/swagger-ui.html" target="_blank">API</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <p class="subtitle">Fast & Easy Car Rental</p>
+        <h1>Find the perfect car for your trip</h1>
+        <p class="description">
+            Choose from economy, compact, SUV, luxury and van cars.
+            Add extra options, select a rental package and reserve your car easily.
+        </p>
+
+        <div class="hero-actions">
+            <a href="#cars" class="btn-primary">View Cars</a>
+            <a href="#how-it-works" class="btn-secondary">How it works</a>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <h3>Quick Search</h3>
+
+        <div class="field">
+            <label>Car type</label>
+            <select id="carType">
+                <option value="">All types</option>
+                <option value="ECONOMY">Economy</option>
+                <option value="COMPACT">Compact</option>
+                <option value="SUV">SUV</option>
+                <option value="LUXURY">Luxury</option>
+                <option value="VAN">Van</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Search by brand/model</label>
+            <input type="text" id="keyword" placeholder="BMW, Toyota, Golf...">
+        </div>
+
+        <button onclick="searchCars()">Search</button>
+    </div>
+</section>
+
+<section id="how-it-works" class="steps">
+    <h2>How it works</h2>
+
+    <div class="steps-grid">
+        <div class="step-card">
+            <span>1</span>
+            <h3>Choose a car</h3>
+            <p>Select a car from the available fleet.</p>
+        </div>
+
+        <div class="step-card">
+            <span>2</span>
+            <h3>Create reservation</h3>
+            <p>Choose dates, package and extra options.</p>
+        </div>
+
+        <div class="step-card">
+            <span>3</span>
+            <h3>Pay & confirm</h3>
+            <p>Pay using Stripe or PayPal simulation.</p>
+        </div>
+    </div>
+</section>
+
+<section id="cars" class="cars-section">
+    <div class="section-header">
+        <p>What we offer</p>
+        <h2>Available Cars</h2>
+    </div>
+
+    <div class="cars-grid" id="carsContainer">
+        <div class="car-card" th:each="car : ${cars}">
+            <img th:src="${car.imageUrl}" alt="Car image">
+
+            <div class="car-body">
+                <div class="car-type" th:text="${car.carType}">COMPACT</div>
+
+                <h3 th:text="${car.brand + ' ' + car.model}">Mercedes A180d</h3>
+
+                <p class="meta">
+                    <span th:text="${car.fuelType}">DIESEL</span>
+                    ·
+                    <span th:text="${car.transmissionType}">AUTOMATIC</span>
+                    ·
+                    <span th:text="${car.seats + ' seats'}">5 seats</span>
+                </p>
+
+                <div class="price">
+                    <strong th:text="${car.pricePerDay + ' €'}">35 €</strong>
+                    <span>/ day</span>
+                </div>
+
+                <div class="card-actions">
+                    <a th:href="@{'/cars-page/' + ${car.id}}" class="details-btn">Details</a>
+                    <a th:href="@{'/cars-page/' + ${car.id}}" class="reserve-btn">Reserve</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 RentCar Management System</p>
+</footer>
+
+<script>
+    async function searchCars() {
+        const type = document.getElementById("carType").value;
+        const keyword = document.getElementById("keyword").value.trim();
+
+        let url = "/cars/available";
+
+        if (keyword !== "") {
+            url = "/cars/search?keyword=" + encodeURIComponent(keyword);
+        } else if (type !== "") {
+            url = "/cars/type/" + type;
+        }
+
+        const response = await fetch(url);
+        const cars = await response.json();
+
+        const container = document.getElementById("carsContainer");
+        container.innerHTML = "";
+
+        cars.forEach(car => {
+            container.innerHTML += `
+                <div class="car-card">
+                    <img src="${car.imageUrl || '/images/default-car.jpg'}" alt="Car image">
+
+                    <div class="car-body">
+                        <div class="car-type">${car.carType}</div>
+                        <h3>${car.brand} ${car.model}</h3>
+
+                        <p class="meta">
+                            ${car.fuelType} · ${car.transmissionType} · ${car.seats} seats
+                        </p>
+
+                        <div class="price">
+                            <strong>${car.pricePerDay} €</strong>
+                            <span>/ day</span>
+                        </div>
+
+                        <div class="card-actions">
+                            <a href="/cars-page/${car.id}" class="details-btn">Details</a>
+                            <a href="/cars-page/${car.id}" class="reserve-btn">Reserve</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+</script>
+
+</body>
+</html>
