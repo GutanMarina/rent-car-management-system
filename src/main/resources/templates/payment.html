@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+    <link rel="stylesheet" th:href="@{/css/payment.css}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Rent<span>Car</span></div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/#cars">Cars</a>
+        <a href="/swagger-ui.html" target="_blank">API</a>
+    </nav>
+</header>
+
+<section class="page">
+    <div class="payment-card">
+        <div class="left">
+            <p class="subtitle">Payment</p>
+            <h1 th:text="'Reservation #' + ${reservation.id}">Reservation #1</h1>
+
+            <div class="summary">
+                <p>
+                    <strong>Car:</strong>
+                    <span th:text="${reservation.carName}">Mercedes A180d</span>
+                </p>
+
+                <p>
+                    <strong>Client:</strong>
+                    <span th:text="${reservation.userName}">Marina</span>
+                </p>
+
+                <p>
+                    <strong>Period:</strong>
+                    <span th:text="${reservation.startDate + ' → ' + reservation.endDate}">date</span>
+                </p>
+
+                <p>
+                    <strong>Package:</strong>
+                    <span th:text="${reservation.packageType}">STANDARD</span>
+                </p>
+
+                <p>
+                    <strong>Options:</strong>
+                    <span th:text="${reservation.optionsDescription}">Base rental</span>
+                </p>
+
+                <div class="amount">
+                    <span>Total amount</span>
+                    <strong th:text="${reservation.totalPrice + ' €'}">100 €</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="right">
+            <h2>Choose payment method</h2>
+
+            <form id="paymentForm">
+                <input type="hidden" id="reservationId" th:value="${reservation.id}">
+
+                <label class="payment-option">
+                    <input type="radio" name="paymentMethod" value="STRIPE" checked>
+                    <div>
+                        <strong>Stripe</strong>
+                        <span>Simulated card payment</span>
+                    </div>
+                </label>
+
+                <label class="payment-option">
+                    <input type="radio" name="paymentMethod" value="PAYPAL">
+                    <div>
+                        <strong>PayPal</strong>
+                        <span>Simulated PayPal payment</span>
+                    </div>
+                </label>
+
+                <button type="submit">Pay Now</button>
+            </form>
+
+            <div id="messageBox" class="message-box"></div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById("paymentForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const reservationId = Number(document.getElementById("reservationId").value);
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+        const messageBox = document.getElementById("messageBox");
+
+        const paymentRequest = {
+            reservationId: reservationId,
+            paymentMethod: paymentMethod
+        };
+
+        try {
+            const paymentResponse = await fetch("/payments", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(paymentRequest)
+            });
+
+            const paymentData = await paymentResponse.json();
+
+            if (!paymentResponse.ok) {
+                messageBox.innerHTML = `<p class="error">${paymentData.message || "Payment failed"}</p>`;
+                return;
+            }
+
+            const confirmResponse = await fetch(`/reservations/${reservationId}/confirm`, {
+                method: "PUT"
+            });
+
+            const confirmData = await confirmResponse.json();
+
+            if (!confirmResponse.ok) {
+                messageBox.innerHTML = `<p class="error">${confirmData.message || "Reservation confirmation failed"}</p>`;
+                return;
+            }
+
+            messageBox.innerHTML = `
+                <p class="success">Payment completed and reservation confirmed!</p>
+                <p><strong>Payment ID:</strong> ${paymentData.id}</p>
+                <p><strong>Status:</strong> ${confirmData.status}</p>
+                <a class="next-link" href="/contract-page/${reservationId}">Generate contract</a>
+                <a class="secondary-link" href="/reservation-page/${reservationId}">Back to reservation</a>
+            `;
+
+        } catch (error) {
+            messageBox.innerHTML = `<p class="error">Something went wrong.</p>`;
+        }
+    });
+</script>
+
+</body>
+</html>
