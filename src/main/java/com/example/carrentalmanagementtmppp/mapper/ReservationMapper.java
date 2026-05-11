@@ -22,6 +22,7 @@ public class ReservationMapper {
 
                 reservation.getStartDate(),
                 reservation.getEndDate(),
+                reservation.getPickupLocation(),
 
                 reservation.getTotalPrice(),
                 reservation.getStatus(),

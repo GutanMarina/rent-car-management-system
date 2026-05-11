@@ -1,6 +1,7 @@
 package com.example.carrentalmanagementtmppp.controller;
 import com.example.carrentalmanagementtmppp.dto.request.CreateUserRequest;
 import com.example.carrentalmanagementtmppp.dto.response.UserResponse;
+import com.example.carrentalmanagementtmppp.enums.UserRole;
 import com.example.carrentalmanagementtmppp.mapper.UserMapper;
 import com.example.carrentalmanagementtmppp.model.User;
 import com.example.carrentalmanagementtmppp.patterns.structural.facade.RentalFacade;
@@ -25,6 +26,8 @@ public class UserController {
                 .fullName(request.getFullName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
+                .password(request.getPassword())
+                .role(UserRole.USER)
                 .build();
 
         User savedUser = rentalFacade.addUser(user);

@@ -20,5 +20,6 @@ public interface ReservationBuilder {
     ReservationBuilder setOptionsDescription(String optionsDescription);
     ReservationBuilder setPackageType(String packageType);
     ReservationBuilder setAssistanceLevel(String assistanceLevel);
+    ReservationBuilder setPickupLocation(String pickupLocation);
     Reservation build();
 }

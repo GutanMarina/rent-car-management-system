@@ -1,6 +1,5 @@
 package com.example.carrentalmanagementtmppp.dto.request;
 
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -8,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateUserRequest {
+public class RegisterRequest {
 
     @NotBlank(message = "Full name is required")
     private String fullName;
@@ -19,6 +18,7 @@ public class CreateUserRequest {
 
     @NotBlank(message = "Phone is required")
     private String phone;
+
     @NotBlank(message = "Password is required")
     private String password;
 }

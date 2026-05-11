@@ -22,6 +22,7 @@ public class ReservationResponse {
 
     private LocalDate startDate;
     private LocalDate endDate;
+    private String pickupLocation;
 
     private Double totalPrice;
     private ReservationStatus status;
@@ -33,4 +34,5 @@ public class ReservationResponse {
     private String optionsDescription;
     private String packageType;
     private String assistanceLevel;
+
 }

@@ -2,6 +2,8 @@ package com.example.carrentalmanagementtmppp.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.example.carrentalmanagementtmppp.enums.UserRole;
+
 
 @Entity
 @Table(name = "users")
@@ -24,4 +26,10 @@ public class User {
 
     @Column(nullable = false)
     private String phone;
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role;
 }

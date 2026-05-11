@@ -58,6 +58,9 @@ public class Reservation implements ReservationContext {
 
     private String optionsDescription;
 
+    @Column(nullable = false)
+    private String pickupLocation;
+
     @Transient
     private ReservationState state;
 

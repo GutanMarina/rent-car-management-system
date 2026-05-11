@@ -21,6 +21,7 @@ public class DefaultReservationBuilder implements ReservationBuilder {
     private String optionsDescription;
     private String packageType;
     private String assistanceLevel;
+    private String pickupLocation;
 
     @Override
     public ReservationBuilder setCar(Car car) {
@@ -92,6 +93,11 @@ public class DefaultReservationBuilder implements ReservationBuilder {
         this.assistanceLevel = assistanceLevel;
         return this;
     }
+    @Override
+    public ReservationBuilder setPickupLocation(String pickupLocation) {
+        this.pickupLocation = pickupLocation;
+        return this;
+    }
 
     @Override
     public Reservation build() {
@@ -110,6 +116,9 @@ public class DefaultReservationBuilder implements ReservationBuilder {
         if (status == null) {
             throw new IllegalStateException("Status must not be null");
         }
+        if (pickupLocation == null || pickupLocation.isBlank()) {
+            throw new IllegalStateException("Pickup location must not be empty");
+        }
 
         return Reservation.builder()
                 .car(car)
@@ -124,6 +133,7 @@ public class DefaultReservationBuilder implements ReservationBuilder {
                 .optionsDescription(optionsDescription)
                 .packageType(packageType)
                 .assistanceLevel(assistanceLevel)
+                .pickupLocation(pickupLocation)
                 .build();
     }
 }
