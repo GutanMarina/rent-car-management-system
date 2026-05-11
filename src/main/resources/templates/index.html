@@ -12,9 +12,40 @@
 
     <nav>
         <a href="/">Home</a>
-        <a href="#cars">Cars</a>
-        <a href="#how-it-works">How it works</a>
-        <a href="/swagger-ui.html" target="_blank">API</a>
+        <a href="/#cars">Cars</a>
+
+        <a th:if="${loggedUser != null and loggedUser.role.name() == 'USER'}"
+           href="/my-reservations">
+            My Reservations
+        </a>
+
+        <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}"
+           href="/admin/cars">
+             Cars
+        </a>
+
+        <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}"
+           href="/admin/reservations">
+             Reservations
+        </a>
+
+        <a th:if="${loggedUser == null}" href="/login">
+            Login
+        </a>
+
+        <a th:if="${loggedUser == null}" href="/register">
+            Register
+        </a>
+
+        <span class="logged-user"
+              th:if="${loggedUser != null}"
+              th:text="'Hello, ' + ${loggedUser.fullName}">
+        Hello, user
+    </span>
+
+        <a th:if="${loggedUser != null}" href="#" onclick="logoutUser()">
+            Logout
+        </a>
     </nav>
 </header>
 
@@ -167,6 +198,13 @@
                 </div>
             `;
         });
+    }
+    async function logoutUser() {
+        await fetch("/auth/logout", {
+            method: "POST"
+        });
+
+        window.location.href = "/";
     }
 </script>
 
