@@ -3,11 +3,13 @@ import com.example.carrentalmanagementtmppp.dto.request.CreateReservationRequest
 import com.example.carrentalmanagementtmppp.dto.response.ReservationResponse;
 import com.example.carrentalmanagementtmppp.mapper.ReservationMapper;
 import com.example.carrentalmanagementtmppp.model.Reservation;
+import com.example.carrentalmanagementtmppp.model.User;
 import com.example.carrentalmanagementtmppp.patterns.structural.facade.RentalFacade;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/reservations")
@@ -20,16 +22,24 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ReservationResponse createReservation(@Valid @RequestBody CreateReservationRequest request) {
+    public ReservationResponse createReservation(@Valid @RequestBody CreateReservationRequest request,
+                                                 HttpSession session) {
+        User loggedUser = (User) session.getAttribute("loggedUser");
+
+        if (loggedUser == null) {
+            throw new RuntimeException("User must be logged in to create a reservation");
+        }
+
         Reservation reservation = rentalFacade.createReservation(
                 request.getCarId(),
-                request.getUserId(),
+                loggedUser.getId(),
                 request.getStartDate(),
                 request.getEndDate(),
                 request.isGps(),
                 request.isChildSeat(),
                 request.isInsurance(),
-                request.getPackageType()
+                request.getPackageType(),
+                request.getPickupLocation()
         );
 
         return ReservationMapper.toResponse(reservation);
