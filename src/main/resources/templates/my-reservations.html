@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Reservations</title>
+    <link rel="stylesheet" th:href="@{/css/my-reservations.css}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Rent<span>Car</span></div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/#cars">Cars</a>
+
+        <span class="logged-user"
+              th:text="'Hello, ' + ${loggedUser.fullName}">
+        </span>
+
+        <a href="#" onclick="logoutUser()">Logout</a>
+    </nav>
+</header>
+
+<section class="page">
+
+    <div class="page-header">
+        <p class="subtitle">Your rentals</p>
+        <h1>My Reservations</h1>
+    </div>
+
+    <div class="reservations-grid">
+
+        <div class="reservation-card"
+             th:each="reservation : ${reservations}">
+
+            <div class="top">
+                <span class="status"
+                      th:text="${reservation.status}">
+                    PENDING
+                </span>
+
+                <span class="price"
+                      th:text="${reservation.totalPrice + ' €'}">
+                    100 €
+                </span>
+            </div>
+
+            <h2 th:text="${reservation.carName}">
+                BMW X5
+            </h2>
+
+            <p class="dates">
+                <span th:text="${reservation.startDate}"></span>
+                →
+                <span th:text="${reservation.endDate}"></span>
+            </p>
+
+            <div class="details">
+                <p>
+                    <strong>Pickup:</strong>
+                    <span th:text="${reservation.pickupLocation}"></span>
+                </p>
+
+                <p>
+                    <strong>Package:</strong>
+                    <span th:text="${reservation.packageType}"></span>
+                </p>
+
+                <p>
+                    <strong>Options:</strong>
+                    <span th:text="${reservation.optionsDescription}"></span>
+                </p>
+            </div>
+
+            <div class="actions">
+
+                <a th:href="@{'/reservation-page/' + ${reservation.id}}"
+                   class="btn-dark">
+                    View Details
+                </a>
+
+                <a th:if="${reservation.status.name() == 'CONFIRMED'}"
+                   th:href="@{'/contract-page/' + ${reservation.id}}"
+                   class="btn-primary">
+                    Contract
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+    async function logoutUser() {
+        await fetch("/auth/logout", {
+            method: "POST"
+        });
+
+        window.location.href = "/";
+    }
+</script>
+
+</body>
+</html>

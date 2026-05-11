@@ -1,0 +1,154 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f6f8fb;
+    color: #111827;
+}
+
+.navbar {
+    height: 80px;
+    background: #111827;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 80px;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #ff7a00;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.logged-user {
+    color: #d1d5db;
+    font-weight: 700;
+}
+
+.page {
+    padding: 70px 80px;
+}
+
+.page-header {
+    margin-bottom: 45px;
+}
+
+.subtitle {
+    color: #ff7a00;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.page-header h1 {
+    font-size: 48px;
+}
+
+.reservations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+}
+
+.reservation-card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.status {
+    background: #fff3e6;
+    color: #ff7a00;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-weight: 800;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.reservation-card h2 {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.dates {
+    color: #6b7280;
+    margin-bottom: 20px;
+}
+
+.details p {
+    margin-bottom: 10px;
+    color: #374151;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.actions a {
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: 800;
+}
+
+.btn-dark {
+    background: #111827;
+    color: white;
+}
+
+.btn-primary {
+    background: #ff7a00;
+    color: white;
+}
+
+@media (max-width: 900px) {
+
+    .page {
+        padding: 40px 25px;
+    }
+
+    .reservations-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .navbar {
+        padding: 0 30px;
+    }
+}

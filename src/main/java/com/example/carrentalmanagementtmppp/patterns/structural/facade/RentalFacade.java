@@ -28,7 +28,8 @@ public interface RentalFacade {
                                   boolean gps,
                                   boolean childSeat,
                                   boolean insurance,
-                                  String packageType);
+                                  String packageType,
+                                  String pickupLocation);
     List<Reservation> getAllReservations();
     Reservation getReservationById(Long id);
 
@@ -46,4 +47,5 @@ public interface RentalFacade {
     List<Car> getCarsByType(CarType carType);
     List<Car> searchCars(String keyword);
     void deleteCar(Long id);
-    Car updateCarStatus(Long id, CarStatus status);}
+    Car updateCarStatus(Long id, CarStatus status);
+    List<Reservation> getReservationsByUserId(Long userId);}

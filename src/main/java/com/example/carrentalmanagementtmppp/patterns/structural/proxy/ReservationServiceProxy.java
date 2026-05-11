@@ -27,12 +27,23 @@ public class ReservationServiceProxy implements ReservationService {
                                          boolean gps,
                                          boolean childSeat,
                                          boolean insurance,
-                                         String packageType) {
+                                         String packageType,
+                                         String pickupLocation) {
         System.out.println("[PROXY] Creating reservation for userId=" + userId +
                 ", carId=" + carId +
-                ", packageType=" + packageType);
+                ", packageType=" + packageType +
+                ", pickupLocation=" + pickupLocation);
+
         return realReservationService.createReservation(
-                carId, userId, startDate, endDate, gps, childSeat, insurance, packageType
+                carId,
+                userId,
+                startDate,
+                endDate,
+                gps,
+                childSeat,
+                insurance,
+                packageType,
+                pickupLocation
         );
     }
 
@@ -64,5 +75,10 @@ public class ReservationServiceProxy implements ReservationService {
     public Reservation completeReservation(Long reservationId) {
         System.out.println("[PROXY] Completing reservation id=" + reservationId);
         return realReservationService.completeReservation(reservationId);
+    }
+    @Override
+    public List<Reservation> getReservationsByUserId(Long userId) {
+        System.out.println("[PROXY] Fetching reservations for userId=" + userId);
+        return realReservationService.getReservationsByUserId(userId);
     }
 }

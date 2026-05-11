@@ -13,10 +13,12 @@ public interface ReservationService {
                                   boolean gps,
                                   boolean childSeat,
                                   boolean insurance,
-                                  String packageType);
+                                  String packageType,
+                                  String pickupLocation);
 
     List<Reservation> getAllReservations();
     Optional<Reservation> getReservationById(Long id);
+    List<Reservation> getReservationsByUserId(Long userId);
 
     Reservation confirmReservation(Long reservationId);
     Reservation cancelReservation(Long reservationId);

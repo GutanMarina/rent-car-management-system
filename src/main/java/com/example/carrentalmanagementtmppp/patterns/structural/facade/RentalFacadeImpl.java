@@ -79,10 +79,23 @@ public class RentalFacadeImpl implements RentalFacade {
                                          boolean gps,
                                          boolean childSeat,
                                          boolean insurance,
-                                         String packageType) {
+                                         String packageType,
+                                         String pickupLocation) {
         return reservationService.createReservation(
-                carId, userId, startDate, endDate, gps, childSeat, insurance, packageType
+                carId,
+                userId,
+                startDate,
+                endDate,
+                gps,
+                childSeat,
+                insurance,
+                packageType,
+                pickupLocation
         );
+    }
+    @Override
+    public List<Reservation> getReservationsByUserId(Long userId) {
+        return reservationService.getReservationsByUserId(userId);
     }
 
     @Override

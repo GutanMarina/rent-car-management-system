@@ -50,7 +50,8 @@ public class ReservationServiceImpl implements ReservationService {
                                          boolean gps,
                                          boolean childSeat,
                                          boolean insurance,
-                                         String packageType) {
+                                         String packageType,
+                                         String pickupLocation) {
 
         ReservationValidationContext validationContext =
                 new ReservationValidationContext(carId, userId, startDate, endDate);
@@ -137,6 +138,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .setOptionsDescription(optionsDescription)
                 .setPackageType(packageType.toUpperCase())
                 .setAssistanceLevel(assistanceService.getSupportLevel())
+                .setPickupLocation(pickupLocation)
                 .build();
 
         car.setStatus(CarStatus.RESERVED);
@@ -198,5 +200,9 @@ public class ReservationServiceImpl implements ReservationService {
         reservationSubject.notifyObservers("RESERVATION_COMPLETED", savedReservation);
 
         return savedReservation;
+    }
+    @Override
+    public List<Reservation> getReservationsByUserId(Long userId) {
+        return reservationRepository.findByUserId(userId);
     }
 }
