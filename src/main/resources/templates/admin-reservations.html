@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Reservations</title>
+    <link rel="stylesheet" th:href="@{/css/admin-reservations.css}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Rent<span>Car</span> Admin</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/admin/cars">Admin Cars</a>
+        <a href="/admin/reservations">Reservations</a>
+
+        <span class="logged-user"
+              th:text="'Hello, ' + ${loggedUser.fullName}">
+            Hello, Admin
+        </span>
+
+        <a href="#" onclick="logoutUser()">Logout</a>
+    </nav>
+</header>
+
+<section class="page">
+
+    <div class="page-header">
+        <p class="subtitle">Admin panel</p>
+        <h1>Reservations Management</h1>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Client</th>
+                <th>Car</th>
+                <th>Period</th>
+                <th>Pickup</th>
+                <th>Package</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="reservation : ${reservations}">
+                <td th:text="${reservation.id}">1</td>
+
+                <td>
+                    <strong th:text="${reservation.userName}">Marina</strong>
+                    <small th:text="${reservation.userEmail}">email</small>
+                </td>
+
+                <td>
+                    <strong th:text="${reservation.carName}">BMW X5</strong>
+                    <small th:text="${reservation.licensePlate}">ABC123</small>
+                </td>
+
+                <td>
+                    <span th:text="${reservation.startDate}">2026-05-01</span>
+                    <br>
+                    <span th:text="${reservation.endDate}">2026-05-04</span>
+                </td>
+
+                <td th:text="${reservation.pickupLocation}">Office</td>
+
+                <td th:text="${reservation.packageType}">STANDARD</td>
+
+                <td>
+                    <strong th:text="${reservation.totalPrice + ' €'}">100 €</strong>
+                </td>
+
+                <td>
+                    <span class="status"
+                          th:text="${reservation.status}">
+                        PENDING
+                    </span>
+                </td>
+
+                <td class="actions">
+                    <button th:if="${reservation.status.name() == 'PENDING'}"
+                            th:onclick="'confirmReservation(' + ${reservation.id} + ')'">
+                        Confirm
+                    </button>
+
+                    <button class="danger"
+                            th:if="${reservation.status.name() == 'PENDING' || reservation.status.name() == 'CONFIRMED'}"
+                            th:onclick="'cancelReservation(' + ${reservation.id} + ')'">
+                        Cancel
+                    </button>
+
+                    <button class="complete"
+                            th:if="${reservation.status.name() == 'CONFIRMED'}"
+                            th:onclick="'completeReservation(' + ${reservation.id} + ')'">
+                        Complete
+                    </button>
+
+                    <a th:href="@{'/reservation-page/' + ${reservation.id}}">
+                        Details
+                    </a>
+
+                    <a th:if="${reservation.status.name() == 'CONFIRMED' || reservation.status.name() == 'COMPLETED'}"
+                       th:href="@{'/contract-page/' + ${reservation.id}}">
+                        Contract
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="messageBox"></div>
+
+</section>
+
+<script>
+    async function confirmReservation(id) {
+        await updateReservation(`/reservations/${id}/confirm`, "Reservation confirmed");
+    }
+
+    async function cancelReservation(id) {
+        if (!confirm("Cancel this reservation?")) return;
+        await updateReservation(`/reservations/${id}/cancel`, "Reservation cancelled");
+    }
+
+    async function completeReservation(id) {
+        if (!confirm("Mark this reservation as completed?")) return;
+        await updateReservation(`/reservations/${id}/complete`, "Reservation completed");
+    }
+
+    async function updateReservation(url, successMessage) {
+        const response = await fetch(url, {
+            method: "PUT"
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.message || "Operation failed");
+            return;
+        }
+
+        alert(successMessage);
+        window.location.reload();
+    }
+
+    async function logoutUser() {
+        await fetch("/auth/logout", {
+            method: "POST"
+        });
+
+        window.location.href = "/";
+    }
+</script>
+
+</body>
+</html>
