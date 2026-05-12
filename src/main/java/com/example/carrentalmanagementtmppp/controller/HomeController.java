@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.example.carrentalmanagementtmppp.mapper.ReservationMapper;
 import com.example.carrentalmanagementtmppp.patterns.creational.prototype.RentalContract;
+import com.example.carrentalmanagementtmppp.mapper.AuditLogMapper;
 
 @Controller
 public class HomeController {
@@ -165,5 +166,29 @@ public class HomeController {
     @GetMapping("/register")
     public String registerPage() {
         return "register";
+    }
+    @GetMapping("/admin/audit-logs")
+    public String adminAuditLogs(Model model, HttpSession session) {
+        User loggedUser = (User) session.getAttribute("loggedUser");
+
+        if (loggedUser == null) {
+            return "redirect:/login";
+        }
+
+        if (loggedUser.getRole() != UserRole.ADMIN) {
+            return "redirect:/";
+        }
+
+        addLoggedUserToModel(model, session);
+
+        model.addAttribute(
+                "auditLogs",
+                rentalFacade.getAllAuditLogs()
+                        .stream()
+                        .map(AuditLogMapper::toResponse)
+                        .toList()
+        );
+
+        return "admin-audit-logs";
     }
 }
