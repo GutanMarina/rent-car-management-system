@@ -10,3 +10,4 @@ target/
 
 ### IntelliJ ###
 out/
+src/main/resources/application-local.properties
