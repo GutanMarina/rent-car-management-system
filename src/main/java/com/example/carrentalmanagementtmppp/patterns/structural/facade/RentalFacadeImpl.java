@@ -2,13 +2,11 @@ package com.example.carrentalmanagementtmppp.patterns.structural.facade;
 
 import com.example.carrentalmanagementtmppp.enums.CarStatus;
 import com.example.carrentalmanagementtmppp.enums.CarType;
-import com.example.carrentalmanagementtmppp.model.Car;
-import com.example.carrentalmanagementtmppp.model.Payment;
-import com.example.carrentalmanagementtmppp.model.Reservation;
-import com.example.carrentalmanagementtmppp.model.User;
+import com.example.carrentalmanagementtmppp.model.*;
 import com.example.carrentalmanagementtmppp.patterns.creational.prototype.RentalContract;
 import com.example.carrentalmanagementtmppp.service.*;
 import org.springframework.stereotype.Component;
+import com.example.carrentalmanagementtmppp.service.AuditLogService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,17 +19,20 @@ public class RentalFacadeImpl implements RentalFacade {
     private final ReservationService reservationService;
     private final PaymentService paymentService;
     private final RentalContractService rentalContractService;
+    private final AuditLogService auditLogService;
 
     public RentalFacadeImpl(CarService carService,
                             UserService userService,
                             ReservationService reservationService,
                             PaymentService paymentService,
-                            RentalContractService rentalContractService) {
+                            RentalContractService rentalContractService,
+                            AuditLogService auditLogService) {
         this.carService = carService;
         this.userService = userService;
         this.reservationService = reservationService;
         this.paymentService = paymentService;
         this.rentalContractService = rentalContractService;
+        this.auditLogService = auditLogService;
     }
 
     @Override
@@ -163,5 +164,10 @@ public class RentalFacadeImpl implements RentalFacade {
     @Override
     public Car updateCarStatus(Long id, CarStatus status) {
         return carService.updateCarStatus(id, status);
+    }
+
+    @Override
+    public List<AuditLog> getAllAuditLogs() {
+        return auditLogService.getAllAuditLogs();
     }
 }

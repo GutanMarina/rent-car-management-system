@@ -7,6 +7,7 @@ import com.example.carrentalmanagementtmppp.model.Reservation;
 import com.example.carrentalmanagementtmppp.model.User;
 import com.example.carrentalmanagementtmppp.patterns.creational.prototype.RentalContract;
 import com.example.carrentalmanagementtmppp.enums.CarType;
+import com.example.carrentalmanagementtmppp.model.AuditLog;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -48,4 +49,5 @@ public interface RentalFacade {
     List<Car> searchCars(String keyword);
     void deleteCar(Long id);
     Car updateCarStatus(Long id, CarStatus status);
-    List<Reservation> getReservationsByUserId(Long userId);}
+    List<Reservation> getReservationsByUserId(Long userId);
+    List<AuditLog> getAllAuditLogs();}
