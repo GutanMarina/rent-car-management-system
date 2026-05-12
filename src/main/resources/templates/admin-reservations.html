@@ -14,11 +14,11 @@
         <a href="/">Home</a>
         <a href="/admin/cars">Admin Cars</a>
         <a href="/admin/reservations">Reservations</a>
+        <a href="/admin/audit-logs">Audit Logs</a>
 
         <span class="logged-user"
               th:text="'Hello, ' + ${loggedUser.fullName}">
-            Hello, Admin
-        </span>
+    </span>
 
         <a href="#" onclick="logoutUser()">Logout</a>
     </nav>
@@ -83,10 +83,6 @@
                 </td>
 
                 <td class="actions">
-                    <button th:if="${reservation.status.name() == 'PENDING'}"
-                            th:onclick="'confirmReservation(' + ${reservation.id} + ')'">
-                        Confirm
-                    </button>
 
                     <button class="danger"
                             th:if="${reservation.status.name() == 'PENDING' || reservation.status.name() == 'CONFIRMED'}"

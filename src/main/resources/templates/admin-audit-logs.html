@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Audit Logs</title>
+    <link rel="stylesheet" th:href="@{/css/admin-audit-logs.css}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">Rent<span>Car</span> Admin</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/admin/cars">Admin Cars</a>
+        <a href="/admin/reservations">Reservations</a>
+        <a href="/admin/audit-logs">Audit Logs</a>
+
+        <span class="logged-user"
+              th:text="'Hello, ' + ${loggedUser.fullName}">
+            Hello, Admin
+        </span>
+
+        <a href="#" onclick="logoutUser()">Logout</a>
+    </nav>
+</header>
+
+<section class="page">
+
+    <div class="page-header">
+        <p class="subtitle">System history</p>
+        <h1>Audit Logs</h1>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Reservation</th>
+                <th>Event</th>
+                <th>Status</th>
+                <th>User Email</th>
+                <th>Message</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="log : ${auditLogs}">
+                <td th:text="${log.id}">1</td>
+                <td th:text="${log.reservationId}">3</td>
+                <td>
+                    <span class="event" th:text="${log.eventType}">
+                        RESERVATION_CONFIRMED
+                    </span>
+                </td>
+                <td th:text="${log.reservationStatus}">CONFIRMED</td>
+                <td th:text="${log.userEmail}">user@email.com</td>
+                <td th:text="${log.message}">Message</td>
+                <td th:text="${log.createdAt}">2026-05-12</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+<script>
+    async function logoutUser() {
+        await fetch("/auth/logout", {
+            method: "POST"
+        });
+
+        window.location.href = "/";
+    }
+</script>
+
+</body>
+</html>
