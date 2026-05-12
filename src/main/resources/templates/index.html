@@ -12,7 +12,7 @@
 
     <nav>
         <a href="/">Home</a>
-        <a href="/#cars">Cars</a>
+<!--        <a href="/#cars">Cars</a>-->
 
         <a th:if="${loggedUser != null and loggedUser.role.name() == 'USER'}"
            href="/my-reservations">
@@ -27,6 +27,11 @@
         <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}"
            href="/admin/reservations">
              Reservations
+        </a>
+
+        <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}"
+           href="/admin/audit-logs">
+            Audit Logs
         </a>
 
         <a th:if="${loggedUser == null}" href="/login">
