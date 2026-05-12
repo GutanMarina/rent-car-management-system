@@ -110,39 +110,51 @@
         </table>
     </div>
 
-    <div id="messageBox"></div>
+    <div id="messageBox" class="message-box"></div>
 
 </section>
 
 <script>
-    async function confirmReservation(id) {
-        await updateReservation(`/reservations/${id}/confirm`, "Reservation confirmed");
-    }
-
     async function cancelReservation(id) {
         if (!confirm("Cancel this reservation?")) return;
-        await updateReservation(`/reservations/${id}/cancel`, "Reservation cancelled");
+        await updateReservation(`/reservations/${id}/cancel`, "Reservation cancelled successfully.");
     }
 
     async function completeReservation(id) {
         if (!confirm("Mark this reservation as completed?")) return;
-        await updateReservation(`/reservations/${id}/complete`, "Reservation completed");
+        await updateReservation(`/reservations/${id}/complete`, "Reservation completed successfully.");
     }
 
     async function updateReservation(url, successMessage) {
-        const response = await fetch(url, {
-            method: "PUT"
-        });
+        const messageBox = document.getElementById("messageBox");
 
-        const data = await response.json();
+        try {
+            const response = await fetch(url, {
+                method: "PUT"
+            });
 
-        if (!response.ok) {
-            alert(data.message || "Operation failed");
-            return;
+            const data = await response.json();
+
+            if (!response.ok) {
+                showMessage(data.message || "Operation failed.", "error");
+                return;
+            }
+
+            showMessage(successMessage, "success");
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 2500);
+
+        } catch (error) {
+            showMessage("Something went wrong. Please try again.", "error");
         }
+    }
 
-        alert(successMessage);
-        window.location.reload();
+    function showMessage(message, type) {
+        const messageBox = document.getElementById("messageBox");
+        messageBox.className = "message-box " + type;
+        messageBox.textContent = message;
     }
 
     async function logoutUser() {
@@ -153,6 +165,5 @@
         window.location.href = "/";
     }
 </script>
-
 </body>
 </html>
